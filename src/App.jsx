@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     console.log("%c Chottomatte! ", "background: #222; color:#3224ff ;font-size:50px");
     console.log(
-      "%c If someone told you to paste something in this window.  There's a high chance of you being scammed.  So DO NOT PASTE anything in this window or you can get your account compromised!!! ",
+      "%c If someone told you to paste something in this window.  There's a high chance that you're getting scammed.  So DO NOT PASTE anything in this window or you can get your account compromised!!! ",
       "background: #222; color:#ff0000 ;font-size:16px"
     );
   }, []);
