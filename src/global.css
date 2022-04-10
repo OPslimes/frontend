@@ -1,0 +1,66 @@
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Semibold.otf");
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Medium.ttf");
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Bold.otf");
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Light.otf");
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Book.otf");
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Bookitalic.otf");
+    font-style: italic;
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Lightitalic.otf");
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-Mediumitalic.otf");
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("https://s3.anicastapp.ga/file/anichan-me/assets-ui/fonts/Whitney-SemiboldItalic.otf");
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+}

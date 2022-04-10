@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home, Signup, NotFound } from "./pages";
 import "./styles/App.css";
+import "./global.css";
 
 function App() {
   useEffect(() => {
