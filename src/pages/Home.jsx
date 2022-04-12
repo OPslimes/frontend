@@ -1,5 +1,10 @@
 import React from "react";
+import Navbar from "../shared/Navbar";
+import "../styles/Home.css";
 
 export const Home = () => {
-  return <h1>Testing Push</h1>;
+  return <>
+    <Navbar/>
+  </>;
 };
+
