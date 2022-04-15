@@ -51,6 +51,110 @@ export const Signup = () => {
   const maxPasswordLength = 30;
   const minPasswordLength = 6;
 
+  const validationSchema = Yup.object({
+    username: Yup.string()
+      .required("Username is required.")
+      .max(maxUsernameLength, `Username must be less than ${maxUsernameLength} characters.`)
+      .min(minUsernameLength, `Username must be aleast ${minUsernameLength} characters long.`)
+      .matches(/^(?=.{3,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/, {
+        message: "This username is not allowed.",
+      }),
+
+    password: Yup.string()
+      .required("Password is required.")
+      .max(maxPasswordLength, `Password must be less than ${maxPasswordLength} characters.`)
+      .min(minPasswordLength, `Password must be atleast ${minPasswordLength} characters long.`),
+
+    email: Yup.string().required("Email Address is required.").email("Please enter a valid email address."),
+  });
+
+  // function to handle form submission
+  const handleSubmit = async (values, { setFieldError, ...meta }) => {
+    try {
+      const res = await axios({
+        baseURL: "http://localhost:4000/",
+        method: "POST",
+        url: "api/v1/graphql",
+        data: {
+          query: `
+          mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!) {
+            createUser(input: {name: $name, username: $username, email: $email, password: $password})
+          }
+        `,
+          variables: {
+            name: values.username,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          },
+        },
+      });
+      if (!res.data.data) {
+        const error = res.data.errors[0];
+        switch (error.extensions.code) {
+          case "INVALID_INPUT":
+            toast({
+              title: "Invalid Input",
+              description: error.message,
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+            });
+            break;
+          case "INVALID_USERNAME":
+            setFieldError("username", error.message);
+            break;
+          case "INVALID_EMAIL":
+            setFieldError("email", error.message);
+            break;
+          case "INVALID_PASSWORD":
+            setFieldError("password", error.message);
+            break;
+          case "USERNAME_ALREADY_EXISTS":
+            setFieldError("username", error.message);
+            break;
+          case "EMAIL_ALREADY_EXISTS":
+            setFieldError("email", error.message);
+            break;
+          default:
+            toast({
+              title: "Oopsies! Something went wrong.",
+              description: error.message,
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+              position: "top",
+            });
+        }
+      } else {
+        toast({
+          title: "Success!",
+          description: "Account created successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+
+        onOpen();
+        console.log(res);
+      }
+      meta.setSubmitting(false);
+    } catch (err) {
+      toast({
+        title: "Oopsies! Something went wrong.",
+        description: err.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+
+      meta.setSubmitting(false);
+      console.log(err.response);
+    }
+  };
+
   return (
     <div className="centered_container">
       <Center>
@@ -89,107 +193,10 @@ export const Signup = () => {
             </Box>
             <Formik
               initialValues={initialValues}
-              validationSchema={Yup.object({
-                username: Yup.string()
-                  .required("Username is required.")
-                  .max(maxUsernameLength, `Username must be less than ${maxUsernameLength} characters.`)
-                  .min(minUsernameLength, `Username must be aleast ${minUsernameLength} characters long.`)
-                  .matches(/^(?=.{3,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/, {
-                    message: "This username is not allowed.",
-                  }),
-                password: Yup.string()
-                  .required("Password is required.")
-                  .max(maxPasswordLength, `Password must be less than ${maxPasswordLength} characters.`)
-                  .min(minPasswordLength, `Password must be atleast ${minPasswordLength} characters long.`),
-                email: Yup.string()
-                  .required("Email Address is required.")
-                  .email("Please enter a valid email address."),
-              })}
-              onSubmit={(values, { setFieldError, ...meta }) => {
-                axios({
-                  baseURL: "http://localhost:4000/",
-                  method: "POST",
-                  url: "api/v1/graphql",
-                  data: {
-                    query: `
-                      mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!) {
-                        createUser(input: {name: $name, username: $username, email: $email, password: $password})
-                      }
-                    `,
-                    variables: {
-                      name: values.username,
-                      username: values.username,
-                      email: values.email,
-                      password: values.password,
-                    },
-                  },
-                })
-                  .then((res) => {
-                    if (!res.data.data) {
-                      const error = res.data.errors[0];
-                      switch (error.extensions.code) {
-                        case "INVALID_INPUT":
-                          toast({
-                            title: "Invalid Input",
-                            description: error.message,
-                            status: "error",
-                            duration: 5000,
-                            isClosable: true,
-                          });
-                          break;
-                        case "INVALID_USERNAME":
-                          setFieldError("username", error.message);
-                          break;
-                        case "INVALID_EMAIL":
-                          setFieldError("email", error.message);
-                          break;
-                        case "INVALID_PASSWORD":
-                          setFieldError("password", error.message);
-                          break;
-                        case "USERNAME_ALREADY_EXISTS":
-                          setFieldError("username", error.message);
-                          break;
-                        case "EMAIL_ALREADY_EXISTS":
-                          setFieldError("email", error.message);
-                          break;
-                        default:
-                          toast({
-                            title: "Oopsies! Something went wrong.",
-                            description: error.message,
-                            status: "error",
-                            duration: 3000,
-                            isClosable: true,
-                            position: "top",
-                          });
-                      }
-                    } else {
-                      toast({
-                        title: "Success!",
-                        description: "Account created successfully.",
-                        status: "success",
-                        duration: 3000,
-                        isClosable: true,
-                        position: "top",
-                      });
-                      onOpen();
-                      console.log(res);
-                    }
-                    meta.setSubmitting(false);
-                  })
-                  .catch((err) => {
-                    toast({
-                      title: "Oopsies! Something went wrong.",
-                      description: err.response.data.message,
-                      status: "error",
-                      duration: 5000,
-                      isClosable: true,
-                      position: "top",
-                    });
-
-                    meta.setSubmitting(false);
-                    console.log(err.response);
-                  });
-              }}>
+              validationSchema={validationSchema}
+              onSubmit={async (values, { setFieldError, ...meta }) =>
+                await handleSubmit(values, { setFieldError, ...meta })
+              }>
               {({ isSubmitting, handleChange, handleBlur }) => (
                 <Form>
                   <Stack w={["72"]}>
