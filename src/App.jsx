@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Home, Signup, NotFound } from "./pages";
+import { Home, Signup, NotFound, Login } from "./pages";
 import "./styles/App.css";
 import "./global.css";
 
@@ -20,6 +20,7 @@ function App() {
           <Route path="*" exact element={<NotFound />} />
           <Route path="/" exact element={<Home />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>

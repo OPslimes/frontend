@@ -20,9 +20,9 @@ import axios from "axios";
 
 import { InputField } from "../components";
 
-import "../styles/Signup.css";
+import "../styles/Login.css";
 
-export const Signup = () => {
+export const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast();
@@ -38,10 +38,8 @@ export const Signup = () => {
 
   // initial values for form fields
   const initialValues = {
-    username: "",
-    email: "",
+    input: "",
     password: "",
-    confirmPassword: "",
   };
 
   // constants for validation schema
@@ -52,39 +50,33 @@ export const Signup = () => {
   const minPasswordLength = 6;
 
   const validationSchema = Yup.object({
-    username: Yup.string()
-      .required("Username is required.")
-      .max(maxUsernameLength, `Username must be less than ${maxUsernameLength} characters.`)
-      .min(minUsernameLength, `Username must be aleast ${minUsernameLength} characters long.`)
-      .matches(/^(?=.{3,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/, {
-        message: "This username is not allowed.",
-      }),
+    input: Yup.string()
+      .required("Username/Email Address is required."),
 
     password: Yup.string()
       .required("Password is required.")
       .max(maxPasswordLength, `Password must be less than ${maxPasswordLength} characters.`)
-      .min(minPasswordLength, `Password must be atleast ${minPasswordLength} characters long.`),
-
-    email: Yup.string().required("Email Address is required.").email("Please enter a valid email address."),
+      .min(minPasswordLength, `Password must be at least ${minPasswordLength} characters long.`),
   });
 
   // function to handle form submission
   const handleSubmit = async (values, { setFieldError, ...meta }) => {
     try {
+        console.log("Hello!")
       const res = await axios({
         baseURL: "http://localhost:4000/",
         method: "POST",
         url: "api/v1/graphql",
         data: {
           query: `
-          mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!) {
-            createUser(input: {name: $name, username: $username, email: $email, password: $password})
+          mutation Login($input: String!, $password: String!) {
+            loginByUsernameorEmailAndPassword(input: $input, password: $password) {
+                username
+            }
           }
         `,
           variables: {
-            name: values.username,
-            username: values.username,
-            email: values.email,
+            input: values.input,
             password: values.password,
           },
         },
@@ -102,19 +94,19 @@ export const Signup = () => {
             });
             break;
           case "INVALID_USERNAME":
-            setFieldError("username", error.message);
+            setFieldError("input", error.message);
             break;
           case "INVALID_EMAIL":
-            setFieldError("email", error.message);
+            setFieldError("input", error.message);
             break;
           case "INVALID_PASSWORD":
             setFieldError("password", error.message);
             break;
           case "USERNAME_ALREADY_EXISTS":
-            setFieldError("username", error.message);
+            setFieldError("input", error.message);
             break;
           case "EMAIL_ALREADY_EXISTS":
-            setFieldError("email", error.message);
+            setFieldError("input", error.message);
             break;
           default:
             toast({
@@ -129,7 +121,7 @@ export const Signup = () => {
       } else {
         toast({
           title: "Success!",
-          description: "Account created successfully.",
+          description: "Welcome back! " + res.data.data.loginByUsernameorEmailAndPassword.username,
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -167,7 +159,7 @@ export const Signup = () => {
           }}>
           <Flex flexDirection={"column"} gridRowStart={2}>
             <Box fontSize={["2xl"]} fontWeight={"800"} alignSelf={"center"}>
-              <Text color="white">Sign up below!</Text>
+              <Text color="white">Login</Text>
             </Box>
             <Box alignSelf={"center"}>
               <Text
@@ -183,10 +175,10 @@ export const Signup = () => {
                 color="gray.500"
                 letterSpacing="0.01em"
                 paddingBottom={["3"]}>
-                Already have an account?{" "}
-                <Link to="/login">
+                Don't have an account?{" "}
+                <Link to="/signup">
                   <Text textDecoration="underline" cursor="pointer" display="inline" color="claret.300">
-                    Login.
+                    Signup.
                   </Text>
                 </Link>
               </Text>
@@ -200,7 +192,7 @@ export const Signup = () => {
               {({ isSubmitting, handleChange, handleBlur }) => (
                 <Form>
                   <Stack w={["72"]}>
-                    <InputField placeholder="Username" name="username">
+                    <InputField placeholder="Username/Email Address" name="input">
                       <AiOutlineUser size={iconSize} />
                     </InputField>
                     <Stack direction="row">
@@ -208,9 +200,6 @@ export const Signup = () => {
                         <RiLockPasswordFill size={iconSize} />
                       </InputField>
                     </Stack>
-                    <InputField name="email" placeholder="Email Address">
-                      <MdEmail size={iconSize} />
-                    </InputField>
                   </Stack>
                   <Button
                     isLoading={isSubmitting}
@@ -220,7 +209,7 @@ export const Signup = () => {
                     _hover={{ bg: "gray.200" }}
                     mt={[2, 2.5, 3.5, 4]}
                     w={"max-content"}>
-                    Register
+                    Login
                   </Button>
                 </Form>
               )}
