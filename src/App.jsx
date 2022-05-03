@@ -16,11 +16,13 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <main>
         <Routes>
           <Route path="*" exact element={<NotFound />} />
           <Route path="/" exact element={<Home />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
+        </main>
       </div>
     </Router>
   );

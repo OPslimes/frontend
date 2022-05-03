@@ -64,3 +64,9 @@
     font-weight: 700;
     font-display: swap;
 }
+
+main {
+    background-color: #374355;
+    height: 100vh;
+    width: 100%;
+}
