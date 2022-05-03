@@ -50,8 +50,7 @@ export const Login = () => {
   const minPasswordLength = 6;
 
   const validationSchema = Yup.object({
-    input: Yup.string()
-      .required("Username/Email Address is required."),
+    input: Yup.string().required("Username/Email Address is required."),
 
     password: Yup.string()
       .required("Password is required.")
@@ -62,7 +61,7 @@ export const Login = () => {
   // function to handle form submission
   const handleSubmit = async (values, { setFieldError, ...meta }) => {
     try {
-        console.log("Hello!")
+      console.log("Hello!");
       const res = await axios({
         baseURL: "http://localhost:4000/",
         method: "POST",
