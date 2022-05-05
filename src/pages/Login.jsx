@@ -21,6 +21,7 @@ import axios from "axios";
 import { InputField } from "../components";
 
 import "../styles/Login.css";
+import { sleep } from "../utils/utils";
 
 export const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,11 +62,11 @@ export const Login = () => {
   // function to handle form submission
   const handleSubmit = async (values, { setFieldError, ...meta }) => {
     try {
-      console.log("Hello!");
       const res = await axios({
         baseURL: "http://localhost:4000/",
         method: "POST",
         url: "api/v1/graphql",
+        withCredentials: true,
         data: {
           query: `
           mutation Login($input: String!, $password: String!) {
@@ -127,8 +128,8 @@ export const Login = () => {
           position: "top",
         });
 
-        onOpen();
-        console.log(res);
+        // redirect to home page in 2 seconds
+        sleep(2000).then(() => (window.location.href = "/"));
       }
       meta.setSubmitting(false);
     } catch (err) {
@@ -153,76 +154,76 @@ export const Login = () => {
         width: "100vw",
         "background-color": "#374355",
       }}>
-    <div className="centered_container">
-      <Center>
-        <Box
-          justifyContent={{
-            base: "space-evenly",
-            sm: "space-evenly",
-            xl: "start",
-            "2xl": "start",
-          }}>
-          <Flex flexDirection={"column"} gridRowStart={2}>
-            <Box fontSize={["2xl"]} fontWeight={"800"} alignSelf={"center"}>
-              <Text color="grey">Login</Text>
-            </Box>
-            <Box alignSelf={"center"}>
-              <Text
-                fontSize={{
-                  base: "0.8rem",
-                  xs: "sm",
-                  sm: "md",
-                  md: "1.5rem",
-                  "2xl": "2xl",
-                  xl: "lg",
-                }}
-                fontWeight="500"
-                color="gray.500"
-                letterSpacing="0.01em"
-                paddingBottom={["3"]}>
-                Don't have an account?{" "}
-                <Link to="/">
-                  <Text textDecoration="underline" cursor="pointer" display="inline" color="claret.300">
-                    Signup.
-                  </Text>
-                </Link>
-              </Text>
-            </Box>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={async (values, { setFieldError, ...meta }) =>
-                await handleSubmit(values, { setFieldError, ...meta })
-              }>
-              {({ isSubmitting, handleChange, handleBlur }) => (
-                <Form>
-                  <Stack w={["72"]}>
-                    <InputField placeholder="Username/Email Address" name="input">
-                      <AiOutlineUser size={iconSize} />
-                    </InputField>
-                    <Stack direction="row">
-                      <InputField placeholder="Password" name="password" type="password">
-                        <RiLockPasswordFill size={iconSize} />
+      <div className="centered_container">
+        <Center>
+          <Box
+            justifyContent={{
+              base: "space-evenly",
+              sm: "space-evenly",
+              xl: "start",
+              "2xl": "start",
+            }}>
+            <Flex flexDirection={"column"} gridRowStart={2}>
+              <Box fontSize={["2xl"]} fontWeight={"800"} alignSelf={"center"}>
+                <Text color="grey">Login</Text>
+              </Box>
+              <Box alignSelf={"center"}>
+                <Text
+                  fontSize={{
+                    base: "0.8rem",
+                    xs: "sm",
+                    sm: "md",
+                    md: "1.5rem",
+                    "2xl": "2xl",
+                    xl: "lg",
+                  }}
+                  fontWeight="500"
+                  color="gray.500"
+                  letterSpacing="0.01em"
+                  paddingBottom={["3"]}>
+                  Don't have an account?{" "}
+                  <Link to="/">
+                    <Text textDecoration="underline" cursor="pointer" display="inline" color="claret.300">
+                      Signup.
+                    </Text>
+                  </Link>
+                </Text>
+              </Box>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={async (values, { setFieldError, ...meta }) =>
+                  await handleSubmit(values, { setFieldError, ...meta })
+                }>
+                {({ isSubmitting, handleChange, handleBlur }) => (
+                  <Form>
+                    <Stack w={["72"]}>
+                      <InputField placeholder="Username/Email Address" name="input">
+                        <AiOutlineUser size={iconSize} />
                       </InputField>
+                      <Stack direction="row">
+                        <InputField placeholder="Password" name="password" type="password">
+                          <RiLockPasswordFill size={iconSize} />
+                        </InputField>
+                      </Stack>
                     </Stack>
-                  </Stack>
-                  <Button
-                    isLoading={isSubmitting}
-                    disabled={isSubmitting}
-                    type="submit"
-                    bg="white"
-                    _hover={{ bg: "gray.200" }}
-                    mt={[2, 2.5, 3.5, 4]}
-                    w={"max-content"}>
-                    Login
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </Flex>
-        </Box>
-      </Center>
-    </div>
+                    <Button
+                      isLoading={isSubmitting}
+                      disabled={isSubmitting}
+                      type="submit"
+                      bg="white"
+                      _hover={{ bg: "gray.200" }}
+                      mt={[2, 2.5, 3.5, 4]}
+                      w={"max-content"}>
+                      Login
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
+            </Flex>
+          </Box>
+        </Center>
+      </div>
     </div>
   );
 };
