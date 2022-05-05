@@ -147,6 +147,12 @@ export const Login = () => {
   };
 
   return (
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
+        "background-color": "#374355",
+      }}>
     <div className="centered_container">
       <Center>
         <Box
@@ -158,7 +164,7 @@ export const Login = () => {
           }}>
           <Flex flexDirection={"column"} gridRowStart={2}>
             <Box fontSize={["2xl"]} fontWeight={"800"} alignSelf={"center"}>
-              <Text color="white">Login</Text>
+              <Text color="grey">Login</Text>
             </Box>
             <Box alignSelf={"center"}>
               <Text
@@ -175,7 +181,7 @@ export const Login = () => {
                 letterSpacing="0.01em"
                 paddingBottom={["3"]}>
                 Don't have an account?{" "}
-                <Link to="/signup">
+                <Link to="/">
                   <Text textDecoration="underline" cursor="pointer" display="inline" color="claret.300">
                     Signup.
                   </Text>
@@ -216,6 +222,7 @@ export const Login = () => {
           </Flex>
         </Box>
       </Center>
+    </div>
     </div>
   );
 };

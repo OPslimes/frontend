@@ -8,8 +8,8 @@ export const Home = () => {
   return (
     <div
       style={{
-        width: "auto",
-        height: "auto",
+        width: "100vw",
+        height: "100vh",
         "background-color": "#374355",
       }}>
       <Navbar />
