@@ -8,6 +8,10 @@ function Navbar() {
   const [cookies, setCookie, removeCookie] = useCookies(["userId"]);
   const toast = useToast();
 
+  function handleBooth() {
+    window.location.href = "/profile";
+  }
+
   function handleLogOut() {
     removeCookie("userId");
     toast({
@@ -31,7 +35,7 @@ function Navbar() {
 
         <div>
           <FaCodepen className="badge btn btn-sm m-3" />
-          <FaPersonBooth className="badge btn btn-sm m-3" />
+          <FaPersonBooth className="badge btn btn-sm m-3" onClick={handleBooth}/>
           <FaIcons className="badge btn btn-sm m-3" />
           {cookies.userId ? <BiLogOut className="badge btn btn-sm m-3" onClick={() => handleLogOut()} /> : null}
         </div>
