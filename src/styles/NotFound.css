@@ -2,23 +2,25 @@
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue",
     "Lucida Grande", sans-serif;
-  height: 100vh;
+  height: 96.7vh;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #374355;
 }
 
 .error_code {
   display: inline-block;
-  border-right: 3px solid rgba(0, 0, 0, 0.3);
+  border-right: 3px solid white;
   margin: 0;
   margin-right: 20px;
   padding: 10px 23px 10px 0;
   font-size: 24px;
   font-weight: 500;
   vertical-align: top;
+  color: white;
 }
 
 .message_container {
@@ -35,4 +37,5 @@
   line-height: inherit;
   margin: 0;
   padding: 0;
+  color: white;
 }

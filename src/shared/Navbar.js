@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { useToast } from "@chakra-ui/react";
 
 function Navbar() {
-  const [cookies, setCookie, removeCookie] = useCookies(["userId"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const toast = useToast();
 
   function handleBooth() {
@@ -13,7 +13,7 @@ function Navbar() {
   }
 
   function handleLogOut() {
-    removeCookie("userId");
+    removeCookie("token");
     toast({
       title: "Logged Out",
       description: "You have been logged out.",
@@ -30,14 +30,14 @@ function Navbar() {
     <>
       <div className="flex navbar justify-center">
         <div className="align-top image-full">
-          <img src="/assests/God.png" alt="Hello World" />
+          <img src="/assets/God.png" alt="Hello World" />
         </div>
 
         <div>
           <FaCodepen className="badge btn btn-sm m-3" />
           <FaPersonBooth className="badge btn btn-sm m-3" onClick={handleBooth} />
           <FaIcons className="badge btn btn-sm m-3" />
-          {cookies.userId ? <BiLogOut className="badge btn btn-sm m-3" onClick={() => handleLogOut()} /> : null}
+          {cookies.token ? <BiLogOut className="badge btn btn-sm m-3" onClick={() => handleLogOut()} /> : null}
         </div>
       </div>
     </>

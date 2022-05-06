@@ -150,7 +150,7 @@ export const Login = () => {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "96.7vh",
         width: "100vw",
         "background-color": "#374355",
       }}>

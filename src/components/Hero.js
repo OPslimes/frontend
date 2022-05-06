@@ -62,8 +62,6 @@ function Hero() {
         query: `
         query Me {
             me {
-                _id
-                name
                 username
             }
         }
