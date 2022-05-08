@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { FaPersonBooth, FaCodepen, FaIcons, FaSearchengin, FaChevronRight } from "react-icons/fa";
+import { BsPeopleFill, BsLightningCharge } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import { useCookies } from "react-cookie";
 import { useToast } from "@chakra-ui/react";
@@ -69,6 +70,8 @@ function Navbar() {
                 avatar
                 username
                 email
+                followers
+                createdAt
             }
           }
         `,
@@ -84,6 +87,15 @@ function Navbar() {
         setIsLoading(false);
       }
     } else searchWrapper.current.classList.remove("active");
+  }
+
+  function convertToDate(date) {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = dateObj.toLocaleString("en-us", { month: "short" });
+    const day = dateObj.getDate();
+
+    return `${month} ${day}, ${year}`;
   }
 
   useEffect(() => {
@@ -128,7 +140,9 @@ function Navbar() {
         <div className="autocomplete-box">
           {!isLoading
             ? searchResults.map((user) => (
-                <div style={{ float: "left", width: "100%", margin: "5px 0", lineHeight: "55px" }}>
+                <div
+                  key={user.username}
+                  style={{ float: "left", width: "100%", margin: "5px 0", lineHeight: "55px" }}>
                   <div
                     className="item"
                     onClick={() =>
@@ -151,11 +165,32 @@ function Navbar() {
                         alignSelf: "center",
                         justifySelf: "center",
                         borderRadius: "50%",
+                        objectFit: "cover",
+                        overflow: "hidden",
                       }}
                       src={user.avatar}
                       alt="Avatar"
                     />
-                    <li key={user.username}>{user.username}</li>
+                    <div style={{ float: "left", display: "flex", flexDirection: "column" }}>
+                      <li>{user.username}</li>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <li style={{ fontSize: "16px", color: "gray" }}>{user.followers}</li>
+                        <BsPeopleFill size={16} color={"gray"} style={{ marginLeft: "5px" }} />
+                        <li
+                          style={{
+                            fontSize: "16px",
+                            color: "gray",
+                            position: "absolute",
+                            left: "auto",
+                            right: 0,
+                            marginRight: "20px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}>
+                          Joined {convertToDate(user.createdAt)}
+                        </li>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))
@@ -205,6 +240,8 @@ const Container = styled.div`
     padding: 10px 8px;
     opacity: 1;
     pointer-events: auto;
+    -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.74);
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.74);
   }
 
   &.active .autocomplete-box .item {

@@ -16,6 +16,9 @@
 
 .autocomplete-box li {
   color: #fff;
+  float: left;
+  display: block;
+  margin: -20px 0px -10px 0px;
 }
 
 .autocomplete-box .item {
