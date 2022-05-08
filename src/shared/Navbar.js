@@ -118,6 +118,7 @@ function Navbar() {
           showSearchInput={showSearchInput}
           onKeyUp={async () => await handleOnKeyUp(inputRef.current?.value)}
           type="text"
+          placeholder="Search..."
         />
         {showSearchInput ? (
           <IconRightArrow onClick={() => handleSearch(inputRef.current?.value)} />
